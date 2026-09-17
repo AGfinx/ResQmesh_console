@@ -153,16 +153,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return true;
       } else {
         const err = await res.json().catch(() => ({}));
+        const serverError = err.error || (res.status >= 500 ? 'Backend server error or server offline. Please make sure "npm run dev" is running.' : 'Registration failed.');
         set({
           isLoading: false,
-          error: err.error || 'Registration failed.',
+          error: serverError,
         });
         return false;
       }
     } catch (e: any) {
       set({
         isLoading: false,
-        error: e.message || 'Network error occurred during registration.',
+        error: e.message ? `Network error: ${e.message}. Please verify the backend server is running on port 3001 (run "npm run dev").` : 'Backend server unreachable.',
       });
       return false;
     }
