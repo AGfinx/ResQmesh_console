@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { useAuthStore } from '@/stores/authStore';
 import AppLayout from '@/layouts/AppLayout';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -53,6 +53,12 @@ function NotFound() {
 }
 
 export default function App() {
+  const restoreSession = useAuthStore((s) => s.restoreSession);
+
+  useEffect(() => {
+    restoreSession();
+  }, [restoreSession]);
+
   return (
     <ToastProvider>
       <BrowserRouter>

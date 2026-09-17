@@ -1,0 +1,181 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String        @id @default(cuid())
+  name            String
+  email           String        @unique
+  password        String
+  role            String        @default("citizen") // "admin" | "control-room" | "responder" | "citizen"
+  phone           String?
+  location        String?
+  teamId          String?
+  status          String        @default("available") // "available" | "busy" | "offline"
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  team            Team?         @relation(fields: [teamId], references: [id])
+  sentMessages    ChatMessage[]
+  submittedReports Report[]
+  auditLogs       ActivityLog[]
+}
+
+model Team {
+  id                String        @id @default(cuid())
+  name              String
+  specialties       String        // Comma-separated or JSON string
+  status            String        @default("available") // "available" | "assigned" | "en-route" | "on-site" | "busy" | "offline"
+  latitude          Float
+  longitude         Float
+  currentIncidentId String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  members           User[]
+  currentIncident   Incident?     @relation("AssignedIncident", fields: [currentIncidentId], references: [id])
+  messages          ChatMessage[]
+}
+
+model Incident {
+  id             String      @id @default(cuid())
+  title          String
+  category       String
+  description    String
+  priority       String      @default("medium") // "high" | "medium" | "low"
+  status         String      @default("reported") // "reported" | "verified" | "assigned" | "en-route" | "on-site" | "in-progress" | "resolved" | "closed" | "cancelled"
+  latitude       Float
+  longitude      Float
+  locationName   String
+  reportedAt     DateTime    @default(now())
+  reportedBy     String
+  peopleAffected Int         @default(0)
+  distanceKm     Float?
+  assignedTeamId String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  assignedTeams  Team[]      @relation("AssignedIncident")
+  resources      Resource[]
+  alerts         Alert[]
+  reports        Report[]
+}
+
+model Resource {
+  id                 String    @id @default(cuid())
+  name               String
+  category           String    // "equipment" | "vehicle" | "medical"
+  available          Int       @default(0)
+  inUse              Int       @default(0)
+  total              Int       @default(0)
+  status             String    @default("available") // "available" | "in-use" | "depleted" | "maintenance"
+  location           String?
+  assignedIncidentId String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  assignedIncident   Incident? @relation(fields: [assignedIncidentId], references: [id])
+}
+
+model Alert {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  priority    String    @default("medium") // "critical" | "high" | "medium" | "low"
+  location    String?
+  incidentId  String?
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  incident    Incident? @relation(fields: [incidentId], references: [id])
+}
+
+model ChatMessage {
+  id         String   @id @default(cuid())
+  teamId     String
+  senderId   String?
+  senderName String
+  senderRole String
+  content    String
+  timestamp  DateTime @default(now())
+
+  team       Team     @relation(fields: [teamId], references: [id])
+  sender     User?    @relation(fields: [senderId], references: [id])
+}
+
+model Report {
+  id          String    @id @default(cuid())
+  reportId    String    @unique
+  title       String
+  category    String
+  location    String
+  status      String    @default("submitted") // "draft" | "submitted" | "under-review" | "verified" | "action-taken" | "resolved"
+  submittedBy String?
+  dateTime    DateTime  @default(now())
+  notes       String?
+  incidentId  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  incident    Incident? @relation(fields: [incidentId], references: [id])
+  author      User?     @relation(fields: [submittedBy], references: [id])
+}
+
+model SOSRecord {
+  id             String    @id @default(cuid())
+  type           String
+  description    String
+  latitude       Float
+  longitude      Float
+  accuracyMeters Float?
+  status         String    @default("acknowledged")
+  incidentId     String?
+  createdAt      DateTime  @default(now())
+  acknowledgedAt DateTime?
+}
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorName  String
+  action     String
+  entityType String
+  entityId   String
+  metadata   String?  // JSON string
+  timestamp  DateTime @default(now())
+
+  actor      User?    @relation(fields: [actorId], references: [id])
+}
+
+model MeshNode {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   // "gateway" | "relay" | "terminal"
+  status    String   // "online" | "degraded" | "offline"
+  battery   Int
+  hops      Int
+  rssi      Int
+  latitude  Float
+  longitude Float
+  lastSeen  DateTime @default(now())
+}
+
+model SyncOutbox {
+  id             String   @id @default(cuid())
+  idempotencyKey String   @unique
+  entity         String
+  entityId       String
+  operation      String   // "create" | "update" | "delete"
+  payload        String   // JSON string
+  status         String   @default("pending") // "pending" | "syncing" | "synced" | "failed"
+  retryCount     Int      @default(0)
+  lastError      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

@@ -6,7 +6,7 @@ export interface OutboxItem {
   idempotencyKey: string;
   entity: string;
   entityId: string;
-  operation: 'create' | 'update' | 'delete';
+  operation: string;
   payload: unknown;
   timestamp: number;
   status: 'pending' | 'syncing' | 'synced' | 'failed';
@@ -62,7 +62,7 @@ class OutboxManager {
   public async enqueue(
     entity: string,
     entityId: string,
-    operation: 'create' | 'update' | 'delete',
+    operation: string,
     payload: unknown,
     idempotencyKey?: string
   ): Promise<OutboxItem> {
