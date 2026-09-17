@@ -1,0 +1,25 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark Navy Rounded Background -->
+  <rect x="75" y="40" width="450" height="450" rx="100" fill="#091A44" />
+
+  <!-- Segmented Ring - Top Left -->
+  <path d="M 285 116 A 150 150 0 0 0 150 251 L 208 251 A 92 92 0 0 1 285 174 Z" fill="white" />
+
+  <!-- Segmented Ring - Top Right -->
+  <path d="M 315 116 L 315 174 A 92 92 0 0 1 392 251 L 450 251 A 150 150 0 0 0 315 116 Z" fill="white" />
+
+  <!-- Segmented Ring - Bottom Left -->
+  <path d="M 150 279 A 150 150 0 0 0 285 414 L 285 356 A 92 92 0 0 1 208 279 Z" fill="white" />
+
+  <!-- Segmented Ring - Bottom Right Q-Tail Structure -->
+  <path d="M 315 356 L 315 414 A 150 150 0 0 0 410 370 L 368 328 A 92 92 0 0 1 315 356 Z" fill="white" />
+
+  <!-- Q Diagonal Cross Stem / Arrow Tail -->
+  <path d="M 324 290 L 400 366 L 448 366 L 380 298 L 350 298 Z" fill="white" />
+
+  <!-- Teal / Cyan Directional Arrow Accent -->
+  <polygon points="372,356 440,388 404,320 394,342" fill="#00A389" />
+
+  <!-- Text Wordmark -->
+  <text x="300" y="555" text-anchor="middle" fill="#091A44" font-family="'Outfit', 'Inter', -apple-system, sans-serif" font-size="58" font-weight="800" letter-spacing="-1.5">resqmesh</text>
+</svg>

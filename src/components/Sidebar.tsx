@@ -6,6 +6,7 @@ import { useSosStore } from '@/stores/sosStore';
 import { useMeshStore } from '@/stores/meshStore';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { ResQMeshIcon } from '@/components/Logo';
 
 const adminNav = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -71,13 +72,11 @@ export default function Sidebar() {
           <button onClick={toggleSidebar} className="lg:hidden">
             <Menu className="w-5 h-5 text-text-secondary" />
           </button>
-          <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
-            <Radio className="w-5 h-5 text-white" />
-          </div>
+          <ResQMeshIcon size={32} className="flex-shrink-0" />
           {!collapsed && (
             <div>
-              <h1 className="text-lg font-bold text-navy leading-tight">ResQMesh</h1>
-              <p className="text-[10px] text-text-secondary leading-none">Emergency SOS</p>
+              <h1 className="text-lg font-extrabold text-navy-950 tracking-tight leading-tight">resqmesh</h1>
+              <p className="text-[10px] text-text-secondary font-medium leading-none">Emergency Operations</p>
             </div>
           )}
         </div>

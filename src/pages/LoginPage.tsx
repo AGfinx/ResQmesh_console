@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { Radio, Shield, MapPin, Users } from 'lucide-react';
 import { getInitials } from '@/lib/utils';
 
+import { ResQMeshIcon } from '@/components/Logo';
+
 const roleIcons: Record<string, typeof Shield> = { admin: Shield, 'control-room': MapPin, responder: Users, citizen: Users };
 const roleColors: Record<string, string> = { admin: 'bg-navy', 'control-room': 'bg-primary', responder: 'bg-success', citizen: 'bg-warning' };
 
@@ -21,13 +23,11 @@ export default function LoginPage() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-14 h-14 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center">
-              <Radio className="w-8 h-8 text-white" />
-            </div>
+            <ResQMeshIcon size={72} className="shadow-2xl rounded-3xl ring-4 ring-white/10" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">ResQMesh</h1>
+          <h1 className="text-4xl font-extrabold text-white tracking-tight mb-2">resqmesh</h1>
           <p className="text-lg text-blue-200">Stay Connected. Save Lives.</p>
-          <p className="text-sm text-blue-300 mt-1">Emergency SOS & Disaster Response Ecosystem</p>
+          <p className="text-sm text-blue-300 mt-1">Emergency SOS & Disaster Response Operations</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-2xl p-6">
