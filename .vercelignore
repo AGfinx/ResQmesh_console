@@ -1,0 +1,10 @@
+.git
+.github
+node_modules
+dist
+.vscode
+.agents
+*.log
+src/**/__tests__/**
+*.test.ts
+vitest.config.ts
