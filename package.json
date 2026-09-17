@@ -8,13 +8,15 @@
     "client": "vite",
     "server": "tsx server/index.ts",
     "dev:server": "tsx watch server/index.ts",
-    "build": "tsc -b && vite build",
+    "build": "prisma generate && tsc -b && vite build",
+    "postinstall": "prisma generate",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "db:push": "prisma db push",
     "db:seed": "tsx server/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "vercel-build": "prisma generate && tsc -b && vite build"
   },
   "dependencies": {
     "@capacitor/cli": "^8.4.3",
