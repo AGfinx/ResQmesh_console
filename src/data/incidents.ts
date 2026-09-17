@@ -1,0 +1,88 @@
+import { Incident } from '@/types';
+
+export const mockIncidents: Incident[] = [
+  {
+    id: 'inc-001', title: 'Heavy Rainfall', category: 'Heavy Rainfall',
+    description: 'Severe rainfall causing waterlogging and flooding in low-lying areas of Kothrud. Multiple residents stranded on rooftops. Water level rising rapidly.',
+    priority: 'high', status: 'in-progress', latitude: 18.5074, longitude: 73.8077,
+    locationName: 'Kothrud, Pune', reportedAt: '2025-05-29T09:15:00+05:30',
+    reportedBy: 'Siddhi Pawar', peopleAffected: 12, distanceKm: 3.2, assignedTeamId: 'team-001',
+  },
+  {
+    id: 'inc-002', title: 'Flooding - Mula River Basin', category: 'Flooding',
+    description: 'Mula River water levels have breached danger mark. Nearby settlements at risk of inundation. Evacuation advisory issued.',
+    priority: 'high', status: 'assigned', latitude: 18.5400, longitude: 73.8300,
+    locationName: 'Mula River Basin, Pune', reportedAt: '2025-05-29T08:30:00+05:30',
+    reportedBy: 'Amit Kale', peopleAffected: 45, distanceKm: 2.1, assignedTeamId: 'team-005',
+  },
+  {
+    id: 'inc-003', title: 'Road Accident', category: 'Road Accident',
+    description: 'Multi-vehicle collision on Hadapsar-Mundhwa road. Two vehicles involved. Minor injuries reported. Traffic disruption.',
+    priority: 'low', status: 'reported', latitude: 18.5089, longitude: 73.9260,
+    locationName: 'Hadapsar, Pune', reportedAt: '2025-05-29T08:45:00+05:30',
+    reportedBy: 'Rohan Joshi', peopleAffected: 4, distanceKm: 7.8,
+  },
+  {
+    id: 'inc-004', title: 'Traffic Blockage', category: 'Traffic Blockage',
+    description: 'Major traffic jam due to waterlogged road. Vehicles stranded for over an hour. Alternate routes being diverted.',
+    priority: 'medium', status: 'verified', latitude: 18.5978, longitude: 73.8075,
+    locationName: 'Pimple Saudagar, Pune', reportedAt: '2025-05-29T08:50:00+05:30',
+    reportedBy: 'Priya Desai', peopleAffected: 30, distanceKm: 5.6,
+  },
+  {
+    id: 'inc-005', title: 'Power Outage', category: 'Power Outage',
+    description: 'Complete power failure in Kondhwa area affecting residential complexes and hospitals. Backup generators running low on fuel.',
+    priority: 'low', status: 'reported', latitude: 18.4632, longitude: 73.8898,
+    locationName: 'Kondhwa, Pune', reportedAt: '2025-05-29T08:15:00+05:30',
+    reportedBy: 'Siddhi Pawar', peopleAffected: 200, distanceKm: 9.4,
+  },
+  {
+    id: 'inc-006', title: 'Building Collapse', category: 'Building Collapse',
+    description: 'Partial collapse of old residential building. Multiple families trapped. Structural integrity compromised due to continuous rainfall.',
+    priority: 'high', status: 'on-site', latitude: 18.5308, longitude: 73.8475,
+    locationName: 'Shivajinagar, Pune', reportedAt: '2025-05-29T07:45:00+05:30',
+    reportedBy: 'Vikram Singh', peopleAffected: 18, distanceKm: 1.5, assignedTeamId: 'team-005',
+  },
+  {
+    id: 'inc-007', title: 'Gas Leak', category: 'Gas Leak',
+    description: 'Industrial gas leak detected near residential area. Evacuating nearby residents. Emergency containment team requested.',
+    priority: 'high', status: 'en-route', latitude: 18.5590, longitude: 73.8077,
+    locationName: 'Aundh, Pune', reportedAt: '2025-05-29T09:00:00+05:30',
+    reportedBy: 'Neha Kulkarni', peopleAffected: 50, distanceKm: 4.3, assignedTeamId: 'team-002',
+  },
+  {
+    id: 'inc-008', title: 'Landslide Warning', category: 'Landslide',
+    description: 'Soil erosion and minor landslide near hillside colony. Risk of further slides due to continuous rain.',
+    priority: 'medium', status: 'verified', latitude: 18.5100, longitude: 73.8000,
+    locationName: 'Kothrud Hills, Pune', reportedAt: '2025-05-29T08:20:00+05:30',
+    reportedBy: 'Sanjay Deshmukh', peopleAffected: 15, distanceKm: 3.8,
+  },
+  {
+    id: 'inc-009', title: 'Water Logging', category: 'Water Logging',
+    description: 'Severe water logging on Baner-Balewadi road. Underpasses submerged. Commuters stranded.',
+    priority: 'medium', status: 'assigned', latitude: 18.5590, longitude: 73.7868,
+    locationName: 'Baner, Pune', reportedAt: '2025-05-29T09:10:00+05:30',
+    reportedBy: 'Kavita Nair', peopleAffected: 25, distanceKm: 5.1, assignedTeamId: 'team-003',
+  },
+  {
+    id: 'inc-010', title: 'Fire Outbreak', category: 'Fire',
+    description: 'Fire reported at IT park warehouse. Smoke visible from surrounding areas. Fire engines dispatched.',
+    priority: 'high', status: 'en-route', latitude: 18.5912, longitude: 73.7380,
+    locationName: 'Hinjawadi, Pune', reportedAt: '2025-05-29T09:25:00+05:30',
+    reportedBy: 'Arjun More', peopleAffected: 8, distanceKm: 8.2, assignedTeamId: 'team-006',
+  },
+  {
+    id: 'inc-011', title: 'Bridge Damage', category: 'Bridge Damage',
+    description: 'Structural cracks observed on bridge connecting Kharadi to Mundhwa. Heavy vehicle restrictions imposed.',
+    priority: 'medium', status: 'reported', latitude: 18.5533, longitude: 73.9404,
+    locationName: 'Kharadi, Pune', reportedAt: '2025-05-29T08:00:00+05:30',
+    reportedBy: 'Rahul Patil', peopleAffected: 0, distanceKm: 6.7,
+  },
+  {
+    id: 'inc-012', title: 'Electrical Hazard', category: 'Electrical Hazard',
+    description: 'Fallen electric pole and exposed wires near residential society. Area cordoned off.',
+    priority: 'low', status: 'reported', latitude: 18.4571, longitude: 73.9053,
+    locationName: 'NIBM, Pune', reportedAt: '2025-05-29T07:30:00+05:30',
+    reportedBy: 'Amit Kale', peopleAffected: 6, distanceKm: 10.2,
+  },
+];

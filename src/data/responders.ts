@@ -1,0 +1,28 @@
+import { Responder } from '@/types';
+
+export const mockResponders: Responder[] = [
+  { id: 'resp-001', name: 'Rahul Patil', role: 'Team Lead', teamId: 'team-001', status: 'busy', phone: '+91 98765 43210', latitude: 18.5100, longitude: 73.8100 },
+  { id: 'resp-002', name: 'Sneha Sharma', role: 'Coordinator', teamId: 'team-001', status: 'busy', phone: '+91 98765 43211', latitude: 18.5100, longitude: 73.8100 },
+  { id: 'resp-003', name: 'Arjun More', role: 'Drone Operator', teamId: 'team-001', status: 'busy', phone: '+91 98765 43212', latitude: 18.5100, longitude: 73.8100 },
+  { id: 'resp-004', name: 'Priya Desai', role: 'Field Officer', teamId: 'team-001', status: 'busy', phone: '+91 98765 43213', latitude: 18.5100, longitude: 73.8100 },
+  { id: 'resp-005', name: 'Vikram Singh', role: 'Technical Analyst', teamId: 'team-001', status: 'busy', phone: '+91 98765 43214', latitude: 18.5100, longitude: 73.8100 },
+  { id: 'resp-006', name: 'Amit Kale', role: 'Medic', teamId: 'team-002', status: 'busy', phone: '+91 98765 43215', latitude: 18.5550, longitude: 73.8100 },
+  { id: 'resp-007', name: 'Neha Kulkarni', role: 'Rescuer', teamId: 'team-002', status: 'available', phone: '+91 98765 43216', latitude: 18.5550, longitude: 73.8100 },
+  { id: 'resp-008', name: 'Rohan Joshi', role: 'Driver', teamId: 'team-002', status: 'available', phone: '+91 98765 43217', latitude: 18.5550, longitude: 73.8100 },
+  { id: 'resp-009', name: 'Kavita Nair', role: 'First Aid', teamId: 'team-002', status: 'available', phone: '+91 98765 43218', latitude: 18.5550, longitude: 73.8100 },
+  { id: 'resp-010', name: 'Sanjay Deshmukh', role: 'Fire Fighter', teamId: 'team-003', status: 'busy', phone: '+91 98765 43219', latitude: 18.5550, longitude: 73.7900 },
+  { id: 'resp-011', name: 'Meera Deshpande', role: 'Paramedic', teamId: 'team-003', status: 'available', phone: '+91 98765 43220' },
+  { id: 'resp-012', name: 'Anil Gaikwad', role: 'Rescuer', teamId: 'team-003', status: 'available', phone: '+91 98765 43221' },
+  { id: 'resp-013', name: 'Swati Bhosale', role: 'Field Officer', teamId: 'team-003', status: 'available', phone: '+91 98765 43222' },
+  { id: 'resp-014', name: 'Rajesh Phadke', role: 'Driver', teamId: 'team-003', status: 'available', phone: '+91 98765 43223' },
+  { id: 'resp-015', name: 'Deepa Jadhav', role: 'First Aid', teamId: 'team-003', status: 'available', phone: '+91 98765 43224' },
+  { id: 'resp-016', name: 'Kiran Mane', role: 'Drone Operator', teamId: 'team-004', status: 'available', phone: '+91 98765 43225' },
+  { id: 'resp-017', name: 'Tushar Wagh', role: 'Technical Analyst', teamId: 'team-004', status: 'available', phone: '+91 98765 43226' },
+  { id: 'resp-018', name: 'Pooja Sawant', role: 'Surveillance', teamId: 'team-004', status: 'available', phone: '+91 98765 43227' },
+  { id: 'resp-019', name: 'Dr. Ashwini Patkar', role: 'Emergency Physician', teamId: 'team-005', status: 'busy', phone: '+91 98765 43228' },
+  { id: 'resp-020', name: 'Sunita Raut', role: 'Nurse', teamId: 'team-005', status: 'busy', phone: '+91 98765 43229' },
+  { id: 'resp-021', name: 'Mahesh Kadam', role: 'Paramedic', teamId: 'team-005', status: 'busy', phone: '+91 98765 43230' },
+  { id: 'resp-022', name: 'Anjali Thakur', role: 'Triage Officer', teamId: 'team-005', status: 'busy', phone: '+91 98765 43231' },
+  { id: 'resp-023', name: 'Vishal Pawar', role: 'Fire Fighter', teamId: 'team-006', status: 'busy', phone: '+91 98765 43232' },
+  { id: 'resp-024', name: 'Nitin Shinde', role: 'Hazmat Specialist', teamId: 'team-006', status: 'busy', phone: '+91 98765 43233' },
+];

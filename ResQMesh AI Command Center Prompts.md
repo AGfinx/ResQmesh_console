@@ -27,7 +27,7 @@ Read these files first:
 7. package.json and tsconfig.app.json — available dependencies and aliases.
 
 ### Task
-Implement: [DESCRIBE FEATURE].
+Implement: build this app as a professional android app for disaster response . with proper backend features not using any mocks and timers.
 
 ### Required reasoning
 - Classify the feature as core, secondary, or production-only.
