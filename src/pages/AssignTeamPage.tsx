@@ -7,6 +7,7 @@ import { mockResponders } from '@/data/responders';
 import StatusBadge from '@/components/ui/StatusBadge';
 import { toast } from '@/components/ui/Toast';
 import { getInitials, calculateDistanceKm, formatDistance, cn } from '@/lib/utils';
+import { incidentService } from '@/services/incidentService';
 
 export default function AssignTeamPage() {
   const { id } = useParams<{ id: string }>();
@@ -31,12 +32,15 @@ export default function AssignTeamPage() {
   const availableResponders = mockResponders.filter(r => r.status === 'available' && (!search || r.name.toLowerCase().includes(search.toLowerCase())));
   const recommendedTeamId = sortedTeams.find(t => t.status === 'available')?.id;
 
-  const handleAssign = () => {
+  const handleAssign = async () => {
     if (!selectedTeamId) return;
-    assignTeamToIncident(incident.id, selectedTeamId);
-    teamAssign(selectedTeamId, incident.id);
-    toast(`Team assigned to ${incident.title}`, 'success');
-    navigate(`/incidents/${incident.id}`);
+    try {
+      await incidentService.assignTeam(incident.id, selectedTeamId);
+      toast(`Team assigned to ${incident.title}`, 'success');
+      navigate(`/incidents/${incident.id}`);
+    } catch (err: any) {
+      toast(err?.message || 'Failed to assign team', 'error');
+    }
   };
 
   return (

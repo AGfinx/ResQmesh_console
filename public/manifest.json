@@ -1,0 +1,38 @@
+{
+  "short_name": "ResQMesh",
+  "name": "ResQMesh - Disaster Response & Emergency Command",
+  "description": "Offline-First Emergency SOS and Disaster Response Operations Network",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a",
+  "categories": ["medical", "utilities", "social"],
+  "shortcuts": [
+    {
+      "name": "Emergency SOS",
+      "short_name": "SOS",
+      "description": "Send immediate emergency distress beacon",
+      "url": "/dashboard?action=sos"
+    },
+    {
+      "name": "Incidents Register",
+      "short_name": "Incidents",
+      "description": "View live disaster incidents",
+      "url": "/incidents"
+    },
+    {
+      "name": "Interactive Disaster Map",
+      "short_name": "Map",
+      "description": "View disaster response map",
+      "url": "/map"
+    }
+  ]
+}

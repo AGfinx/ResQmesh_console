@@ -41,32 +41,12 @@ export default function Sidebar() {
   const currentUser = useAuthStore((s) => s.currentUser);
   const collapsed = useUiStore((s) => s.sidebarCollapsed);
   const toggleSidebar = useUiStore((s) => s.toggleSidebar);
-  const activateSOS = useSosStore((s) => s.activateSOS);
-  const setSosStatus = useSosStore((s) => s.setSosStatus);
-  const connectivity = useMeshStore((s) => s.connectivityMode);
-  const [sosModalOpen, setSosModalOpen] = useState(false);
-  const [sosType, setSosType] = useState('');
-  const [sosDesc, setSosDesc] = useState('');
+  const openSosModal = useUiStore((s) => s.openSosModal);
 
   const nav = currentUser?.role === 'responder' ? responderNav : adminNav;
 
-  const handleSOS = () => {
-    if (sosType) {
-      activateSOS(sosType, sosDesc);
-      setTimeout(() => {
-        if (connectivity === 'offline') {
-          setSosStatus('queued-offline');
-        } else if (connectivity === 'mesh') {
-          setSosStatus('mesh-relay');
-        } else {
-          setSosStatus('sent');
-          setTimeout(() => setSosStatus('acknowledged'), 2000);
-        }
-      }, 1500);
-      setSosModalOpen(false);
-      setSosType('');
-      setSosDesc('');
-    }
+  const handleOpenSOS = () => {
+    openSosModal();
   };
 
   return (
@@ -135,7 +115,7 @@ export default function Sidebar() {
             </div>
             <p className="text-xs text-red-100 mb-3">Help is one tap away</p>
             <button
-              onClick={() => setSosModalOpen(true)}
+              onClick={handleOpenSOS}
               className="w-full bg-white text-emergency font-semibold text-sm py-2 rounded-lg hover:bg-red-50 transition-colors"
             >
               Send SOS
@@ -143,45 +123,6 @@ export default function Sidebar() {
           </div>
         )}
       </aside>
-
-      {/* SOS Modal */}
-      {sosModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-emergency/10 rounded-full flex items-center justify-center">
-                <TriangleAlert className="w-6 h-6 text-emergency" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-text-primary">Emergency SOS</h2>
-                <p className="text-sm text-text-secondary">Send immediate emergency alert</p>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Emergency Type</label>
-                <select value={sosType} onChange={(e) => setSosType(e.target.value)} className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                  <option value="">Select type...</option>
-                  <option value="flood">Flood / Water Emergency</option>
-                  <option value="fire">Fire</option>
-                  <option value="medical">Medical Emergency</option>
-                  <option value="collapse">Building Collapse</option>
-                  <option value="trapped">Trapped / Stranded</option>
-                  <option value="other">Other Emergency</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-text-primary mb-1">Description (optional)</label>
-                <textarea value={sosDesc} onChange={(e) => setSosDesc(e.target.value)} placeholder="Briefly describe the emergency..." rows={3} className="w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none" />
-              </div>
-              <div className="flex gap-3">
-                <button onClick={() => setSosModalOpen(false)} className="flex-1 border border-border text-text-secondary font-medium py-2.5 rounded-lg hover:bg-gray-50 transition-colors">Cancel</button>
-                <button onClick={handleSOS} disabled={!sosType} className="flex-1 bg-emergency text-white font-semibold py-2.5 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50">Send SOS</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

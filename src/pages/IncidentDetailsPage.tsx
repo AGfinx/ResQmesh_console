@@ -7,6 +7,7 @@ import StatusBadge from '@/components/ui/StatusBadge';
 import { formatTimeAgo, formatDateTime, cn, calculateDistanceKm, formatDistance } from '@/lib/utils';
 import { STATUS_TRANSITIONS } from '@/lib/constants';
 import { toast } from '@/components/ui/Toast';
+import { incidentService } from '@/services/incidentService';
 
 const statusSteps = ['reported', 'verified', 'assigned', 'en-route', 'on-site', 'in-progress', 'resolved'];
 
@@ -30,9 +31,13 @@ export default function IncidentDetailsPage() {
   const currentStepIdx = statusSteps.indexOf(incident.status);
   const nextStatuses = STATUS_TRANSITIONS[incident.status] || [];
 
-  const handleStatusChange = (status: string) => {
-    updateStatus(incident.id, status as typeof incident.status);
-    toast(`Status updated to ${status.replace('-', ' ')}`, 'success');
+  const handleStatusChange = async (status: string) => {
+    try {
+      await incidentService.updateStatus(incident.id, status as any);
+      toast(`Status updated to ${status.replace('-', ' ')}`, 'success');
+    } catch (err: any) {
+      toast(err?.message || 'Failed to update status', 'error');
+    }
   };
 
   return (
@@ -214,13 +219,16 @@ export default function IncidentDetailsPage() {
               </button>
               <button
                 disabled={!selectedTeamId}
-                onClick={() => {
+                onClick={async () => {
                   if (selectedTeamId) {
-                    assignTeamToIncident(incident.id, selectedTeamId);
-                    teamAssign(selectedTeamId, incident.id);
-                    toast(`Team assigned to ${incident.title}`, 'success');
-                    setIsAssignModalOpen(false);
-                    setSelectedTeamId(null);
+                    try {
+                      await incidentService.assignTeam(incident.id, selectedTeamId);
+                      toast(`Team assigned to ${incident.title}`, 'success');
+                      setIsAssignModalOpen(false);
+                      setSelectedTeamId(null);
+                    } catch (err: any) {
+                      toast(err?.message || 'Failed to assign team', 'error');
+                    }
                   }
                 }}
                 className="flex-1 bg-primary text-white font-semibold py-2.5 rounded-lg hover:bg-primary-600 text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow"

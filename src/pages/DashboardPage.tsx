@@ -8,11 +8,14 @@ import StatCard from '@/components/ui/StatCard';
 import StatusBadge from '@/components/ui/StatusBadge';
 import { formatTimeAgo, getPriorityBorderColor } from '@/lib/utils';
 
+import { useReportStore } from '@/stores/reportStore';
+
 export default function DashboardPage() {
   const incidents = useIncidentStore((s) => s.incidents);
   const teams = useTeamStore((s) => s.teams);
   const alerts = useAlertStore((s) => s.alerts);
   const user = useAuthStore((s) => s.currentUser);
+  const activityLogs = useReportStore((s) => s.activityLogs);
 
   const highPriority = incidents.filter((i) => i.priority === 'high').length;
   const inProgress = incidents.filter((i) => ['assigned', 'en-route', 'on-site', 'in-progress'].includes(i.status)).length;
@@ -20,13 +23,7 @@ export default function DashboardPage() {
   const activeIncidents = incidents.filter((i) => i.status !== 'resolved' && i.status !== 'closed' && i.status !== 'cancelled').slice(0, 5);
   const criticalAlerts = alerts.filter((a) => a.priority === 'critical' || a.priority === 'high').slice(0, 3);
 
-  const timeline = [
-    { time: '09:35', text: 'Incident stabilized in Kothrud', icon: CheckCircle, color: 'text-success' },
-    { time: '09:28', text: 'Medical unit arrived at site', icon: Activity, color: 'text-primary' },
-    { time: '09:24', text: 'Drone dispatched for aerial survey', icon: TrendingUp, color: 'text-info' },
-    { time: '09:20', text: 'Team Alpha assigned to Heavy Rainfall', icon: Users, color: 'text-primary' },
-    { time: '09:15', text: 'Heavy Rainfall incident reported', icon: AlertTriangle, color: 'text-emergency' },
-  ];
+  const recentActivities = activityLogs.slice(0, 5);
 
   return (
     <div className="p-6 space-y-6">
@@ -96,22 +93,27 @@ export default function DashboardPage() {
 
           {/* Response Timeline */}
           <div className="bg-white rounded-card border border-border shadow-sm">
-            <div className="p-5 border-b border-border">
+            <div className="p-5 border-b border-border flex items-center justify-between">
               <h2 className="text-lg font-semibold text-text-primary">Response Activity</h2>
+              <Link to="/reports" className="text-xs text-primary font-medium hover:underline">View logs</Link>
             </div>
             <div className="p-5 space-y-4">
-              {timeline.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="flex flex-col items-center">
-                    <item.icon className={`w-4 h-4 ${item.color}`} />
-                    {i < timeline.length - 1 && <div className="w-px h-6 bg-border mt-1" />}
+              {recentActivities.length > 0 ? (
+                recentActivities.map((item, i) => (
+                  <div key={item.id || i} className="flex items-start gap-3">
+                    <div className="flex flex-col items-center">
+                      <Activity className="w-4 h-4 text-primary mt-0.5" />
+                      {i < recentActivities.length - 1 && <div className="w-px h-6 bg-border mt-1" />}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-text-primary">{item.action}</p>
+                      <p className="text-xs text-text-secondary">{formatTimeAgo(item.timestamp)} · {item.actorName}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-text-primary">{item.text}</p>
-                    <p className="text-xs text-text-secondary">{item.time} AM</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-xs text-text-secondary text-center py-4">No recent activity logs recorded yet.</p>
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { useAlertStore } from '@/stores/alertStore';
 import { useMeshStore } from '@/stores/meshStore';
 import { useUiStore } from '@/stores/uiStore';
+import { outboxManager, OutboxItem } from '@/services/sync/outbox';
 import { getInitials, formatTimeAgo, cn } from '@/lib/utils';
 import { useState, useRef, useEffect } from 'react';
 
@@ -40,14 +41,29 @@ export default function TopBar() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  const connIcon = connectivityMode === 'online' ? Wifi : connectivityMode === 'mesh' ? Radio : WifiOff;
-  const connColor = connectivityMode === 'online' ? 'text-success' : connectivityMode === 'mesh' ? 'text-warning' : 'text-emergency';
-  const connLabel = connectivityMode === 'online' ? 'Connected' : connectivityMode === 'mesh' ? 'Mesh Mode' : 'Offline — Queued';
+  const [pendingOutboxCount, setPendingOutboxCount] = useState(0);
+
+  useEffect(() => {
+    const unsub = outboxManager.subscribe((items) => {
+      const pending = items.filter(i => i.status === 'pending' || i.status === 'failed').length;
+      setPendingOutboxCount(pending);
+    });
+    return () => unsub();
+  }, []);
+
+  const handleManualSync = () => {
+    outboxManager.processOutbox();
+  };
+
+  const isOnline = outboxManager.isOnline();
+  const connIcon = isOnline ? (connectivityMode === 'mesh' ? Radio : Wifi) : WifiOff;
+  const connColor = isOnline ? (connectivityMode === 'mesh' ? 'text-warning' : 'text-success') : 'text-emergency';
+  const connLabel = isOnline ? (connectivityMode === 'mesh' ? 'Mesh Mode' : 'Connected') : 'Offline — Outbox Active';
 
   const toggleSidebar = useUiStore((s) => s.toggleSidebar);
 
   return (
-    <header className="h-16 bg-white border-b border-border flex items-center justify-between px-6 flex-shrink-0">
+    <header className="h-16 bg-white border-b border-border flex items-center justify-between px-4 lg:px-6 flex-shrink-0">
       <div className="flex items-center gap-3">
         <button onClick={toggleSidebar} className="lg:hidden p-1.5 hover:bg-gray-100 rounded-lg text-text-secondary">
           <Menu className="w-5.5 h-5.5" />
@@ -55,16 +71,28 @@ export default function TopBar() {
         <h2 className="text-xl font-bold text-text-primary">{title}</h2>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 lg:gap-4">
         <div className="relative hidden md:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search incidents, teams, resources..." className="pl-10 pr-4 py-2 w-72 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
         </div>
 
+        {/* Outbox Sync Status Badge */}
+        {pendingOutboxCount > 0 && (
+          <button
+            onClick={handleManualSync}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-amber-50 border border-amber-300 text-amber-800 rounded-full text-xs font-semibold hover:bg-amber-100 transition-colors"
+            title="Pending offline mutations waiting to sync. Click to retry now."
+          >
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <span>{pendingOutboxCount} Queued</span>
+          </button>
+        )}
+
         {/* Connectivity */}
-        <div className={cn('flex items-center gap-1.5 text-sm font-medium', connColor)}>
+        <div className={cn('flex items-center gap-1.5 text-xs lg:text-sm font-medium', connColor)}>
           {(() => { const I = connIcon; return <I className="w-4 h-4" />; })()}
-          <span className="hidden lg:inline">{connLabel}</span>
+          <span className="hidden sm:inline">{connLabel}</span>
         </div>
 
         {/* Notifications */}
