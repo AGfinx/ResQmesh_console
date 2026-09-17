@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/authStore';
 import AppLayout from '@/layouts/AppLayout';
 import { ToastProvider } from '@/components/ui/Toast';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 
 const LoginPage = lazy(() => import('@/pages/LoginPage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
@@ -87,6 +88,7 @@ export default function App() {
             </Route>
           </Routes>
         </Suspense>
+        <Analytics />
         <SpeedInsights />
       </BrowserRouter>
     </ToastProvider>
